@@ -1,0 +1,1098 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6eadb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="アルコール量メモ">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>アルコール量メモ</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    :root {
+      --bg: #fffaf3;
+      --paper: #ffffff;
+      --paper-soft: #fff6e8;
+      --ink: #2f2a25;
+      --muted: #74685c;
+      --line: #ead9c3;
+      --brand: #b96f43;
+      --brand-dark: #8c4d2c;
+      --accent: #52776d;
+      --danger: #b4544d;
+      --shadow: 0 14px 34px rgba(88, 56, 26, 0.12);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      width: 100%;
+      min-width: 0;
+      min-height: 100%;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 238, 204, 0.72), transparent 34rem),
+        linear-gradient(180deg, #fff8ef 0%, #fffaf3 42%, #f8efe4 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    button,
+    input,
+    select {
+      max-width: 100%;
+      font: inherit;
+      font-size: 16px;
+    }
+
+    input,
+    select,
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: var(--ink);
+      background: #fffdf9;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type="number"]:focus,
+    input[type="text"]:focus,
+    select:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 4px rgba(185, 111, 67, 0.16);
+    }
+
+    input[type="file"] {
+      width: 100%;
+      min-height: 48px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      background: #fffdf9;
+      color: var(--muted);
+    }
+
+    .app {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      padding: calc(18px + env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom));
+    }
+
+    header {
+      padding: 8px 2px 16px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 6px;
+      font-size: 28px;
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 14px;
+      font-size: 20px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 17px;
+      line-height: 1.4;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .card {
+      width: 100%;
+      margin: 0 0 16px;
+      border: 1px solid rgba(234, 217, 195, 0.9);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .soft-card {
+      border-radius: 8px;
+      padding: 14px;
+      background: var(--paper-soft);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .select-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .select-wrap::after {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      width: 9px;
+      height: 9px;
+      border-right: 2px solid var(--muted);
+      border-bottom: 2px solid var(--muted);
+      content: "";
+      pointer-events: none;
+      transform: translateY(-65%) rotate(45deg);
+    }
+
+    .select-wrap select {
+      padding-right: 42px;
+    }
+
+    .gender-row,
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .gender-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .gender-option span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fffdf9;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .gender-option input:checked + span {
+      border-color: var(--brand);
+      background: #f9e3cf;
+      color: var(--brand-dark);
+      box-shadow: 0 0 0 4px rgba(185, 111, 67, 0.14);
+    }
+
+    .result-box {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+      border-radius: 8px;
+      padding: 18px;
+      background: linear-gradient(135deg, #fff0dd, #fffaf4);
+      border: 1px solid #ecd2b6;
+    }
+
+    .result-label {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .result-value {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--brand-dark);
+      letter-spacing: 0;
+    }
+
+    .result-value small {
+      font-size: 22px;
+    }
+
+    .guide,
+    .notice {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .notice {
+      padding-top: 10px;
+      border-top: 1px solid rgba(234, 217, 195, 0.9);
+    }
+
+    .total-panel {
+      display: grid;
+      gap: 8px;
+      border-radius: 8px;
+      padding: 18px;
+      background: #f0f6f2;
+      border: 1px solid #cfe0d6;
+    }
+
+    .total-value {
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: #365f55;
+      letter-spacing: 0;
+    }
+
+    .judgement {
+      margin: 0;
+      color: #3f635a;
+      font-weight: 800;
+    }
+
+    button {
+      width: 100%;
+      min-height: 52px;
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 16px;
+      color: #fff;
+      background: var(--brand);
+      font-weight: 900;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button.secondary {
+      border: 1px solid var(--line);
+      color: var(--brand-dark);
+      background: #fff8ee;
+    }
+
+    button.ghost {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--muted);
+      background: #fffdf9;
+      font-size: 14px;
+    }
+
+    button.danger {
+      color: #fff;
+      background: var(--danger);
+    }
+
+    .record-list,
+    .history-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .record-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fffdf9;
+    }
+
+    .record-main {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-weight: 800;
+    }
+
+    .record-sub {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .record-item button {
+      width: auto;
+      min-width: 64px;
+      min-height: 40px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .history-item {
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fffdf9;
+    }
+
+    .history-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+      font-weight: 900;
+    }
+
+    .history-head span {
+      overflow-wrap: anywhere;
+    }
+
+    .history-detail {
+      margin: 0;
+      padding: 0;
+      color: var(--muted);
+      font-size: 13px;
+      list-style: none;
+    }
+
+    .empty {
+      margin: 0;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      color: var(--muted);
+      background: #fffdf9;
+      text-align: center;
+    }
+
+    .status {
+      min-height: 24px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .status.error {
+      color: var(--danger);
+    }
+
+    .status.ok {
+      color: var(--accent);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (min-width: 620px) {
+      .form-grid.two {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .app {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .card {
+        padding: 15px;
+        border-radius: 8px;
+      }
+
+      .button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .record-item {
+        grid-template-columns: 1fr;
+      }
+
+      .record-item button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>アルコール量メモ</h1>
+      <p class="lead">飲んだ量から純アルコール量を計算し、今日の合計をやさしく見える化します。</p>
+    </header>
+
+    <section class="card" aria-labelledby="settingsTitle">
+      <h2 id="settingsTitle">性別</h2>
+      <div class="gender-row" role="radiogroup" aria-label="性別">
+        <label class="gender-option">
+          <input type="radio" name="gender" value="female">
+          <span>女性</span>
+        </label>
+        <label class="gender-option">
+          <input type="radio" name="gender" value="male">
+          <span>男性</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="inputTitle">
+      <h2 id="inputTitle">飲んだお酒</h2>
+      <div class="form-grid">
+        <div class="field">
+          <label for="drinkType">お酒の種類</label>
+          <div class="select-wrap">
+            <select id="drinkType">
+              <option value="ビール">ビール</option>
+              <option value="日本酒">日本酒</option>
+              <option value="赤ワイン">赤ワイン</option>
+              <option value="白ワイン">白ワイン</option>
+              <option value="ロゼワイン">ロゼワイン</option>
+              <option value="スパークリングワイン">スパークリングワイン</option>
+              <option value="焼酎">焼酎</option>
+              <option value="ウイスキー">ウイスキー</option>
+              <option value="ハイボール">ハイボール</option>
+              <option value="チューハイ">チューハイ</option>
+              <option value="梅酒">梅酒</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="customNameField" class="field hidden">
+          <label for="customName">お酒の名前</label>
+          <input id="customName" type="text" inputmode="text" autocomplete="off" placeholder="例：ジンソーダ">
+        </div>
+
+        <div class="form-grid two">
+          <div class="field">
+            <label for="volumeMl">飲んだ量（ml）</label>
+            <input id="volumeMl" type="number" inputmode="decimal" min="0" step="1" placeholder="例：350">
+          </div>
+          <div class="field">
+            <label for="alcoholPercent">アルコール度数（%）</label>
+            <input id="alcoholPercent" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="例：5">
+          </div>
+        </div>
+
+        <div class="result-box" aria-live="polite">
+          <div class="result-label">純アルコール量</div>
+          <div class="result-value"><span id="calculatedAlcohol">0.0</span><small>g</small></div>
+        </div>
+
+        <div class="soft-card">
+          <p id="guideText" class="guide"></p>
+          <p class="notice">これは医療判断ではなく、飲酒量を見える化するための目安です。体調・服薬・妊娠中・治療中の場合は飲酒を避ける、または医師に相談してください。</p>
+        </div>
+
+        <button id="saveRecord" type="button">記録する</button>
+        <p id="saveStatus" class="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="todayTitle">
+      <h2 id="todayTitle">今日の合計</h2>
+      <div class="total-panel" aria-live="polite">
+        <div class="total-value"><span id="todayTotal">0.0</span>g</div>
+        <p id="judgementText" class="judgement">目安内です</p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="todayRecordsTitle">
+      <h2 id="todayRecordsTitle">今日の記録</h2>
+      <ul id="todayRecords" class="record-list"></ul>
+      <p id="todayEmpty" class="empty hidden">今日の記録はまだありません。</p>
+    </section>
+
+    <section class="card" aria-labelledby="historyTitle">
+      <h2 id="historyTitle">履歴</h2>
+      <ul id="historyList" class="history-list"></ul>
+      <p id="historyEmpty" class="empty hidden">過去の記録はまだありません。</p>
+    </section>
+
+    <section class="card" aria-labelledby="backupTitle">
+      <h2 id="backupTitle">バックアップ</h2>
+      <p class="guide">大切な記録がなくならないように、定期的なバックアップをお願いします。</p>
+      <div class="form-grid" style="margin-top: 14px;">
+        <button id="exportJson" type="button" class="secondary">JSONファイルとしてエクスポート</button>
+        <div class="field">
+          <label for="importJson">JSONファイルからインポート</label>
+          <input id="importJson" type="file" accept="application/json,.json">
+        </div>
+        <p id="backupStatus" class="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var RECORDS_KEY = "alcoholMemoRecords";
+      var SETTINGS_KEY = "alcoholMemoSettings";
+      var STORAGE_VERSION = 1;
+      var DEFAULT_GENDER = "female";
+
+      var drinkDefaults = {
+        "ビール": 5,
+        "日本酒": 15,
+        "赤ワイン": 13,
+        "白ワイン": 12,
+        "ロゼワイン": 12,
+        "スパークリングワイン": 11,
+        "焼酎": 25,
+        "ウイスキー": 40,
+        "ハイボール": 7,
+        "チューハイ": 7,
+        "梅酒": 12,
+        "その他": ""
+      };
+
+      var elements = {
+        genderInputs: Array.prototype.slice.call(document.querySelectorAll('input[name="gender"]')),
+        drinkType: document.getElementById("drinkType"),
+        customNameField: document.getElementById("customNameField"),
+        customName: document.getElementById("customName"),
+        volumeMl: document.getElementById("volumeMl"),
+        alcoholPercent: document.getElementById("alcoholPercent"),
+        calculatedAlcohol: document.getElementById("calculatedAlcohol"),
+        guideText: document.getElementById("guideText"),
+        saveRecord: document.getElementById("saveRecord"),
+        saveStatus: document.getElementById("saveStatus"),
+        todayTotal: document.getElementById("todayTotal"),
+        judgementText: document.getElementById("judgementText"),
+        todayRecords: document.getElementById("todayRecords"),
+        todayEmpty: document.getElementById("todayEmpty"),
+        historyList: document.getElementById("historyList"),
+        historyEmpty: document.getElementById("historyEmpty"),
+        exportJson: document.getElementById("exportJson"),
+        importJson: document.getElementById("importJson"),
+        backupStatus: document.getElementById("backupStatus")
+      };
+
+      var state = {
+        records: readRecords(),
+        settings: readSettings(),
+        userEditedPercent: false
+      };
+
+      function readJson(key, fallback) {
+        var raw = localStorage.getItem(key);
+        if (!raw) {
+          return fallback;
+        }
+        try {
+          return JSON.parse(raw);
+        } catch (error) {
+          return fallback;
+        }
+      }
+
+      function readRecords() {
+        var data = readJson(RECORDS_KEY, []);
+        if (!Array.isArray(data)) {
+          return [];
+        }
+        return data.filter(isValidRecord).map(normalizeRecord);
+      }
+
+      function readSettings() {
+        var data = readJson(SETTINGS_KEY, {});
+        if (!data || typeof data !== "object" || Array.isArray(data)) {
+          data = {};
+        }
+        data.version = STORAGE_VERSION;
+        data.gender = data.gender === "male" || data.gender === "female" ? data.gender : DEFAULT_GENDER;
+        return data;
+      }
+
+      function saveRecords() {
+        localStorage.setItem(RECORDS_KEY, JSON.stringify(state.records));
+      }
+
+      function saveSettings() {
+        state.settings.version = STORAGE_VERSION;
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings));
+      }
+
+      function isValidRecord(record) {
+        return !!record && typeof record === "object" && !Array.isArray(record);
+      }
+
+      function normalizeRecord(record) {
+        var amount = Number(record.amountMl);
+        var percent = Number(record.alcoholPercent);
+        var pure = Number(record.pureAlcoholG);
+        var drinkType = typeof record.drinkType === "string" ? record.drinkType : "";
+        var customName = typeof record.customName === "string" ? record.customName : "";
+        var date = typeof record.date === "string" ? record.date : todayString();
+        var time = typeof record.time === "string" ? record.time : currentTimeString();
+        var gender = record.gender === "male" || record.gender === "female" ? record.gender : stateGenderFallback();
+
+        return {
+          id: typeof record.id === "string" ? record.id : createId(),
+          date: date,
+          time: time,
+          gender: gender,
+          drinkType: drinkType || "その他",
+          customName: customName,
+          amountMl: Number.isFinite(amount) ? amount : 0,
+          alcoholPercent: Number.isFinite(percent) ? percent : 0,
+          pureAlcoholG: Number.isFinite(pure) ? roundOne(pure) : 0
+        };
+      }
+
+      function stateGenderFallback() {
+        var settings = readJson(SETTINGS_KEY, {});
+        return settings && settings.gender === "male" ? "male" : DEFAULT_GENDER;
+      }
+
+      function createId() {
+        if (window.crypto && window.crypto.randomUUID) {
+          return window.crypto.randomUUID();
+        }
+        return "record-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+      }
+
+      function todayString() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = String(now.getMonth() + 1).padStart(2, "0");
+        var day = String(now.getDate()).padStart(2, "0");
+        return year + "-" + month + "-" + day;
+      }
+
+      function currentTimeString() {
+        var now = new Date();
+        return String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
+      }
+
+      function roundOne(value) {
+        return Math.round((Number(value) || 0) * 10) / 10;
+      }
+
+      function formatOne(value) {
+        return roundOne(value).toFixed(1);
+      }
+
+      function getSelectedGender() {
+        var checked = elements.genderInputs.find(function (input) {
+          return input.checked;
+        });
+        return checked ? checked.value : DEFAULT_GENDER;
+      }
+
+      function setSelectedGender(gender) {
+        elements.genderInputs.forEach(function (input) {
+          input.checked = input.value === gender;
+        });
+      }
+
+      function getCurrentPureAlcohol() {
+        var amount = Number(elements.volumeMl.value);
+        var percent = Number(elements.alcoholPercent.value);
+        if (!Number.isFinite(amount) || !Number.isFinite(percent) || amount <= 0 || percent < 0) {
+          return 0;
+        }
+        return roundOne(amount * percent / 100 * 0.8);
+      }
+
+      function updateDrinkDefaults() {
+        var type = elements.drinkType.value;
+        elements.customNameField.classList.toggle("hidden", type !== "その他");
+        if (!state.userEditedPercent || type !== "その他") {
+          elements.alcoholPercent.value = drinkDefaults[type];
+          state.userEditedPercent = false;
+        }
+        if (type !== "その他") {
+          elements.customName.value = "";
+        }
+        updateCalculation();
+      }
+
+      function updateCalculation() {
+        elements.calculatedAlcohol.textContent = formatOne(getCurrentPureAlcohol());
+      }
+
+      function updateGuide() {
+        var gender = getSelectedGender();
+        if (gender === "male") {
+          elements.guideText.textContent = "男性：1日あたり純アルコール20g程度までが目安です。";
+        } else {
+          elements.guideText.textContent = "女性：1日あたり純アルコール10g程度を目安に控えめに考えましょう。";
+        }
+        updateToday();
+      }
+
+      function displayName(record) {
+        if (record.drinkType === "その他" && record.customName) {
+          return record.customName;
+        }
+        return record.drinkType;
+      }
+
+      function todayRecords() {
+        var today = todayString();
+        return state.records
+          .filter(function (record) {
+            return record.date === today;
+          })
+          .sort(function (a, b) {
+            return a.time.localeCompare(b.time);
+          });
+      }
+
+      function sumRecords(records) {
+        return roundOne(records.reduce(function (sum, record) {
+          return sum + Number(record.pureAlcoholG || 0);
+        }, 0));
+      }
+
+      function updateToday() {
+        var gender = getSelectedGender();
+        var total = sumRecords(todayRecords());
+        elements.todayTotal.textContent = formatOne(total);
+        if (gender === "male") {
+          elements.judgementText.textContent = total <= 20 ? "目安内です" : "今日は少し多めです。水分をとって休みましょう。";
+        } else {
+          elements.judgementText.textContent = total <= 10 ? "目安内です" : "今日は少し多めです。水分をとって休みましょう。";
+        }
+      }
+
+      function renderTodayRecords() {
+        var records = todayRecords();
+        elements.todayRecords.innerHTML = "";
+        elements.todayEmpty.classList.toggle("hidden", records.length > 0);
+
+        records.forEach(function (record) {
+          var item = document.createElement("li");
+          item.className = "record-item";
+
+          var main = document.createElement("div");
+          main.className = "record-main";
+          main.textContent = record.time + "　" + displayName(record) + " " + record.amountMl + "ml / " + record.alcoholPercent + "% / " + formatOne(record.pureAlcoholG) + "g";
+
+          var sub = document.createElement("div");
+          sub.className = "record-sub";
+          sub.textContent = record.gender === "male" ? "男性で記録" : "女性で記録";
+          main.appendChild(sub);
+
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "danger";
+          button.textContent = "削除";
+          button.addEventListener("click", function () {
+            deleteRecord(record.id);
+          });
+
+          item.appendChild(main);
+          item.appendChild(button);
+          elements.todayRecords.appendChild(item);
+        });
+      }
+
+      function renderHistory() {
+        var grouped = {};
+        state.records.forEach(function (record) {
+          if (!grouped[record.date]) {
+            grouped[record.date] = [];
+          }
+          grouped[record.date].push(record);
+        });
+
+        var dates = Object.keys(grouped).sort(function (a, b) {
+          return b.localeCompare(a);
+        });
+
+        elements.historyList.innerHTML = "";
+        elements.historyEmpty.classList.toggle("hidden", dates.length > 0);
+
+        dates.forEach(function (date) {
+          var records = grouped[date].sort(function (a, b) {
+            return a.time.localeCompare(b.time);
+          });
+          var item = document.createElement("li");
+          item.className = "history-item";
+
+          var head = document.createElement("div");
+          head.className = "history-head";
+
+          var dateSpan = document.createElement("span");
+          dateSpan.textContent = date;
+
+          var totalSpan = document.createElement("span");
+          totalSpan.textContent = formatOne(sumRecords(records)) + "g";
+
+          head.appendChild(dateSpan);
+          head.appendChild(totalSpan);
+
+          var detail = document.createElement("ul");
+          detail.className = "history-detail";
+          records.forEach(function (record) {
+            var line = document.createElement("li");
+            line.textContent = record.time + "　" + displayName(record) + " " + record.amountMl + "ml / " + record.alcoholPercent + "% / " + formatOne(record.pureAlcoholG) + "g";
+            detail.appendChild(line);
+          });
+
+          item.appendChild(head);
+          item.appendChild(detail);
+          elements.historyList.appendChild(item);
+        });
+      }
+
+      function renderAll() {
+        updateCalculation();
+        updateGuide();
+        renderTodayRecords();
+        renderHistory();
+      }
+
+      function setStatus(element, message, type) {
+        element.textContent = message;
+        element.classList.remove("error", "ok");
+        if (type) {
+          element.classList.add(type);
+        }
+      }
+
+      function saveRecord() {
+        var gender = getSelectedGender();
+        var drinkType = elements.drinkType.value;
+        var customName = elements.customName.value.trim();
+        var amount = Number(elements.volumeMl.value);
+        var percent = Number(elements.alcoholPercent.value);
+        var pure = getCurrentPureAlcohol();
+
+        if (drinkType === "その他" && !customName) {
+          setStatus(elements.saveStatus, "その他の場合は、お酒の名前を入力してください。", "error");
+          elements.customName.focus();
+          return;
+        }
+
+        if (!Number.isFinite(amount) || amount <= 0) {
+          setStatus(elements.saveStatus, "飲んだ量をmlで入力してください。", "error");
+          elements.volumeMl.focus();
+          return;
+        }
+
+        if (!Number.isFinite(percent) || percent < 0 || percent > 100) {
+          setStatus(elements.saveStatus, "アルコール度数は0〜100の範囲で入力してください。", "error");
+          elements.alcoholPercent.focus();
+          return;
+        }
+
+        state.records.push({
+          id: createId(),
+          date: todayString(),
+          time: currentTimeString(),
+          gender: gender,
+          drinkType: drinkType,
+          customName: customName,
+          amountMl: amount,
+          alcoholPercent: percent,
+          pureAlcoholG: pure
+        });
+
+        saveRecords();
+        setStatus(elements.saveStatus, "記録しました。", "ok");
+        elements.volumeMl.value = "";
+        updateCalculation();
+        renderAll();
+      }
+
+      function deleteRecord(id) {
+        if (!confirm("この記録を削除しますか？")) {
+          return;
+        }
+        state.records = state.records.filter(function (record) {
+          return record.id !== id;
+        });
+        saveRecords();
+        renderAll();
+      }
+
+      function exportBackup() {
+        var backup = {
+          appName: "アルコール量メモ",
+          schemaVersion: STORAGE_VERSION,
+          exportedAt: new Date().toISOString(),
+          keys: {
+            records: RECORDS_KEY,
+            settings: SETTINGS_KEY
+          },
+          records: state.records,
+          settings: state.settings
+        };
+
+        var blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = "alcohol-memo-backup-" + todayString() + ".json";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        setStatus(elements.backupStatus, "バックアップを書き出しました。", "ok");
+      }
+
+      function validateImportData(data) {
+        var records;
+        var settings;
+
+        if (Array.isArray(data)) {
+          records = data;
+          settings = state.settings;
+        } else if (data && typeof data === "object") {
+          records = data.records;
+          settings = data.settings || state.settings;
+        }
+
+        if (!Array.isArray(records)) {
+          throw new Error("recordsが見つかりません。");
+        }
+
+        records.forEach(function (record, index) {
+          if (!record || typeof record !== "object" || Array.isArray(record)) {
+            throw new Error("記録データの形式が正しくありません。");
+          }
+          if (typeof record.date !== "string" || typeof record.time !== "string") {
+            throw new Error((index + 1) + "件目の日付または時刻が正しくありません。");
+          }
+        });
+
+        if (!settings || typeof settings !== "object" || Array.isArray(settings)) {
+          settings = state.settings;
+        }
+
+        return {
+          records: records.map(normalizeRecord),
+          settings: {
+            version: STORAGE_VERSION,
+            gender: settings.gender === "male" || settings.gender === "female" ? settings.gender : DEFAULT_GENDER
+          }
+        };
+      }
+
+      function importBackup(file) {
+        if (!file) {
+          return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function () {
+          try {
+            var data = JSON.parse(String(reader.result || ""));
+            var imported = validateImportData(data);
+            var message = "現在の記録と設定を、選択したバックアップで置き換えます。よろしいですか？";
+            if (!confirm(message)) {
+              elements.importJson.value = "";
+              setStatus(elements.backupStatus, "インポートを取り消しました。", "");
+              return;
+            }
+            localStorage.setItem(RECORDS_KEY, JSON.stringify(imported.records));
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(imported.settings));
+            setStatus(elements.backupStatus, "インポートしました。画面を更新します。", "ok");
+            window.setTimeout(function () {
+              window.location.reload();
+            }, 350);
+          } catch (error) {
+            elements.importJson.value = "";
+            setStatus(elements.backupStatus, "不正なファイルです。JSONの内容を確認してください。", "error");
+          }
+        };
+        reader.onerror = function () {
+          elements.importJson.value = "";
+          setStatus(elements.backupStatus, "ファイルを読み込めませんでした。", "error");
+        };
+        reader.readAsText(file);
+      }
+
+      function initialize() {
+        saveSettings();
+        setSelectedGender(state.settings.gender);
+        elements.alcoholPercent.value = drinkDefaults[elements.drinkType.value];
+
+        elements.genderInputs.forEach(function (input) {
+          input.addEventListener("change", function () {
+            state.settings.gender = getSelectedGender();
+            saveSettings();
+            updateGuide();
+          });
+        });
+
+        elements.drinkType.addEventListener("change", updateDrinkDefaults);
+        elements.volumeMl.addEventListener("input", updateCalculation);
+        elements.alcoholPercent.addEventListener("input", function () {
+          state.userEditedPercent = true;
+          updateCalculation();
+        });
+        elements.saveRecord.addEventListener("click", saveRecord);
+        elements.exportJson.addEventListener("click", exportBackup);
+        elements.importJson.addEventListener("change", function (event) {
+          importBackup(event.target.files && event.target.files[0]);
+        });
+
+        renderAll();
+
+        if ("serviceWorker" in navigator) {
+          window.addEventListener("load", function () {
+            navigator.serviceWorker.register("sw.js").catch(function () {});
+          });
+        }
+      }
+
+      initialize();
+    })();
+  </script>
+</body>
+</html>
