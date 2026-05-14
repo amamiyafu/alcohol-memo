@@ -65,22 +65,28 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    input[type="date"],
     input[type="number"],
     input[type="text"],
     select {
+      display: block;
       width: 100%;
+      max-width: 100%;
+      min-width: 0;
       min-height: 50px;
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: 12px;
       padding: 12px 14px;
       color: var(--ink);
       background: #fffdf9;
+      box-sizing: border-box;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
       outline: none;
       -webkit-appearance: none;
       appearance: none;
     }
 
+    input[type="date"]:focus,
     input[type="number"]:focus,
     input[type="text"]:focus,
     select:focus {
@@ -92,7 +98,7 @@
       width: 100%;
       min-height: 48px;
       border: 1px dashed var(--line);
-      border-radius: 14px;
+      border-radius: 12px;
       padding: 10px;
       background: #fffdf9;
       color: var(--muted);
@@ -153,12 +159,6 @@
       overflow: hidden;
     }
 
-    .soft-card {
-      border-radius: 8px;
-      padding: 14px;
-      background: var(--paper-soft);
-    }
-
     .form-grid {
       display: grid;
       gap: 14px;
@@ -198,37 +198,9 @@
       padding-right: 42px;
     }
 
-    .gender-row,
-    .button-row {
+    .form-grid.two {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      width: 100%;
-    }
-
-    .gender-option input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .gender-option span {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 50px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fffdf9;
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .gender-option input:checked + span {
-      border-color: var(--brand);
-      background: #f9e3cf;
-      color: var(--brand-dark);
-      box-shadow: 0 0 0 4px rgba(185, 111, 67, 0.14);
+      gap: 14px;
     }
 
     .result-box {
@@ -259,19 +231,12 @@
       font-size: 22px;
     }
 
-    .guide,
-    .notice {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
+    .summary-grid {
+      display: grid;
+      gap: 12px;
     }
 
-    .notice {
-      padding-top: 10px;
-      border-top: 1px solid rgba(234, 217, 195, 0.9);
-    }
-
-    .total-panel {
+    .summary-panel {
       display: grid;
       gap: 8px;
       border-radius: 8px;
@@ -280,7 +245,13 @@
       border: 1px solid #cfe0d6;
     }
 
-    .total-value {
+    .summary-label {
+      color: #567269;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .summary-value {
       font-size: 34px;
       font-weight: 900;
       line-height: 1.1;
@@ -288,17 +259,17 @@
       letter-spacing: 0;
     }
 
-    .judgement {
+    .guide {
       margin: 0;
-      color: #3f635a;
-      font-weight: 800;
+      color: var(--muted);
+      font-size: 14px;
     }
 
     button {
       width: 100%;
       min-height: 52px;
       border: 0;
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 13px 16px;
       color: #fff;
       background: var(--brand);
@@ -315,15 +286,6 @@
       border: 1px solid var(--line);
       color: var(--brand-dark);
       background: #fff8ee;
-    }
-
-    button.ghost {
-      min-height: 42px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      color: var(--muted);
-      background: #fffdf9;
-      font-size: 14px;
     }
 
     button.danger {
@@ -358,12 +320,6 @@
       font-weight: 800;
     }
 
-    .record-sub {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
     .record-item button {
       width: auto;
       min-width: 64px;
@@ -382,31 +338,30 @@
       background: #fffdf9;
     }
 
-    .history-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-      min-width: 0;
+    .history-date {
       font-weight: 900;
-    }
-
-    .history-head span {
       overflow-wrap: anywhere;
     }
 
+    .history-total {
+      color: var(--accent);
+      font-weight: 900;
+    }
+
     .history-detail {
+      display: grid;
+      gap: 4px;
       margin: 0;
       padding: 0;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 14px;
       list-style: none;
     }
 
     .empty {
       margin: 0;
       border: 1px dashed var(--line);
-      border-radius: 14px;
+      border-radius: 8px;
       padding: 14px;
       color: var(--muted);
       background: #fffdf9;
@@ -434,7 +389,8 @@
     }
 
     @media (min-width: 620px) {
-      .form-grid.two {
+      .form-grid.two,
+      .summary-grid {
         grid-template-columns: 1fr 1fr;
       }
     }
@@ -447,11 +403,6 @@
 
       .card {
         padding: 15px;
-        border-radius: 8px;
-      }
-
-      .button-row {
-        grid-template-columns: 1fr;
       }
 
       .record-item {
@@ -468,26 +419,17 @@
   <main class="app">
     <header>
       <h1>アルコール量メモ</h1>
-      <p class="lead">飲んだ量から純アルコール量を計算し、今日の合計をやさしく見える化します。</p>
+      <p class="lead">飲んだ量から純アルコール量を計算し記録します。</p>
     </header>
-
-    <section class="card" aria-labelledby="settingsTitle">
-      <h2 id="settingsTitle">性別</h2>
-      <div class="gender-row" role="radiogroup" aria-label="性別">
-        <label class="gender-option">
-          <input type="radio" name="gender" value="female">
-          <span>女性</span>
-        </label>
-        <label class="gender-option">
-          <input type="radio" name="gender" value="male">
-          <span>男性</span>
-        </label>
-      </div>
-    </section>
 
     <section class="card" aria-labelledby="inputTitle">
       <h2 id="inputTitle">飲んだお酒</h2>
       <div class="form-grid">
+        <div class="field">
+          <label for="recordDate">記録日</label>
+          <input id="recordDate" type="date">
+        </div>
+
         <div class="field">
           <label for="drinkType">お酒の種類</label>
           <div class="select-wrap">
@@ -510,7 +452,7 @@
 
         <div id="customNameField" class="field hidden">
           <label for="customName">お酒の名前</label>
-          <input id="customName" type="text" inputmode="text" autocomplete="off" placeholder="例：ジンソーダ">
+          <input id="customName" type="text" inputmode="text" autocomplete="off" placeholder="例：カクテル">
         </div>
 
         <div class="form-grid two">
@@ -529,11 +471,6 @@
           <div class="result-value"><span id="calculatedAlcohol">0.0</span><small>g</small></div>
         </div>
 
-        <div class="soft-card">
-          <p id="guideText" class="guide"></p>
-          <p class="notice">これは医療判断ではなく、飲酒量を見える化するための目安です。体調・服薬・妊娠中・治療中の場合は飲酒を避ける、または医師に相談してください。</p>
-        </div>
-
         <button id="saveRecord" type="button">記録する</button>
         <p id="saveStatus" class="status" aria-live="polite"></p>
       </div>
@@ -541,9 +478,22 @@
 
     <section class="card" aria-labelledby="todayTitle">
       <h2 id="todayTitle">今日の合計</h2>
-      <div class="total-panel" aria-live="polite">
-        <div class="total-value"><span id="todayTotal">0.0</span>g</div>
-        <p id="judgementText" class="judgement">目安内です</p>
+      <div class="summary-panel" aria-live="polite">
+        <div class="summary-value"><span id="todayTotal">0.0</span>g</div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="averageTitle">
+      <h2 id="averageTitle">平均純アルコール量</h2>
+      <div class="summary-grid" aria-live="polite">
+        <div class="summary-panel">
+          <div class="summary-label">過去7日平均</div>
+          <div class="summary-value"><span id="average7">0.0</span>g</div>
+        </div>
+        <div class="summary-panel">
+          <div class="summary-label">過去30日平均</div>
+          <div class="summary-value"><span id="average30">0.0</span>g</div>
+        </div>
       </div>
     </section>
 
@@ -556,7 +506,7 @@
     <section class="card" aria-labelledby="historyTitle">
       <h2 id="historyTitle">履歴</h2>
       <ul id="historyList" class="history-list"></ul>
-      <p id="historyEmpty" class="empty hidden">過去の記録はまだありません。</p>
+      <p id="historyEmpty" class="empty hidden">記録はまだありません。</p>
     </section>
 
     <section class="card" aria-labelledby="backupTitle">
@@ -579,8 +529,7 @@
 
       var RECORDS_KEY = "alcoholMemoRecords";
       var SETTINGS_KEY = "alcoholMemoSettings";
-      var STORAGE_VERSION = 1;
-      var DEFAULT_GENDER = "female";
+      var STORAGE_VERSION = 2;
 
       var drinkDefaults = {
         "ビール": 5,
@@ -598,18 +547,18 @@
       };
 
       var elements = {
-        genderInputs: Array.prototype.slice.call(document.querySelectorAll('input[name="gender"]')),
+        recordDate: document.getElementById("recordDate"),
         drinkType: document.getElementById("drinkType"),
         customNameField: document.getElementById("customNameField"),
         customName: document.getElementById("customName"),
         volumeMl: document.getElementById("volumeMl"),
         alcoholPercent: document.getElementById("alcoholPercent"),
         calculatedAlcohol: document.getElementById("calculatedAlcohol"),
-        guideText: document.getElementById("guideText"),
         saveRecord: document.getElementById("saveRecord"),
         saveStatus: document.getElementById("saveStatus"),
         todayTotal: document.getElementById("todayTotal"),
-        judgementText: document.getElementById("judgementText"),
+        average7: document.getElementById("average7"),
+        average30: document.getElementById("average30"),
         todayRecords: document.getElementById("todayRecords"),
         todayEmpty: document.getElementById("todayEmpty"),
         historyList: document.getElementById("historyList"),
@@ -642,7 +591,9 @@
         if (!Array.isArray(data)) {
           return [];
         }
-        return data.filter(isValidRecord).map(normalizeRecord);
+        return data.filter(function (record) {
+          return record && typeof record === "object" && !Array.isArray(record);
+        }).map(ensureRecordId);
       }
 
       function readSettings() {
@@ -651,7 +602,6 @@
           data = {};
         }
         data.version = STORAGE_VERSION;
-        data.gender = data.gender === "male" || data.gender === "female" ? data.gender : DEFAULT_GENDER;
         return data;
       }
 
@@ -660,40 +610,16 @@
       }
 
       function saveSettings() {
-        state.settings.version = STORAGE_VERSION;
         localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings));
       }
 
-      function isValidRecord(record) {
-        return !!record && typeof record === "object" && !Array.isArray(record);
-      }
-
-      function normalizeRecord(record) {
-        var amount = Number(record.amountMl);
-        var percent = Number(record.alcoholPercent);
-        var pure = Number(record.pureAlcoholG);
-        var drinkType = typeof record.drinkType === "string" ? record.drinkType : "";
-        var customName = typeof record.customName === "string" ? record.customName : "";
-        var date = typeof record.date === "string" ? record.date : todayString();
-        var time = typeof record.time === "string" ? record.time : currentTimeString();
-        var gender = record.gender === "male" || record.gender === "female" ? record.gender : stateGenderFallback();
-
-        return {
-          id: typeof record.id === "string" ? record.id : createId(),
-          date: date,
-          time: time,
-          gender: gender,
-          drinkType: drinkType || "その他",
-          customName: customName,
-          amountMl: Number.isFinite(amount) ? amount : 0,
-          alcoholPercent: Number.isFinite(percent) ? percent : 0,
-          pureAlcoholG: Number.isFinite(pure) ? roundOne(pure) : 0
-        };
-      }
-
-      function stateGenderFallback() {
-        var settings = readJson(SETTINGS_KEY, {});
-        return settings && settings.gender === "male" ? "male" : DEFAULT_GENDER;
+      function ensureRecordId(record) {
+        if (typeof record.id === "string" && record.id) {
+          return record;
+        }
+        var copy = Object.assign({}, record);
+        copy.id = createId();
+        return copy;
       }
 
       function createId() {
@@ -705,15 +631,99 @@
 
       function todayString() {
         var now = new Date();
-        var year = now.getFullYear();
-        var month = String(now.getMonth() + 1).padStart(2, "0");
-        var day = String(now.getDate()).padStart(2, "0");
+        return formatDateLocal(now);
+      }
+
+      function formatDateLocal(date) {
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, "0");
+        var day = String(date.getDate()).padStart(2, "0");
         return year + "-" + month + "-" + day;
       }
 
-      function currentTimeString() {
-        var now = new Date();
-        return String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
+      function isDateString(value) {
+        return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+      }
+
+      function dateFromUnknown(value) {
+        if (!value) {
+          return "";
+        }
+        if (isDateString(value)) {
+          return value;
+        }
+        if (typeof value === "number" && value > 0 && value < 1000000000000) {
+          value = value * 1000;
+        }
+        var parsed = new Date(value);
+        if (Number.isNaN(parsed.getTime())) {
+          return "";
+        }
+        return formatDateLocal(parsed);
+      }
+
+      function recordDate(record) {
+        return dateFromUnknown(record.date) ||
+          dateFromUnknown(record.createdAt) ||
+          dateFromUnknown(record.timestamp) ||
+          todayString();
+      }
+
+      function recordAlcoholType(record) {
+        return stringValue(record.alcoholType) ||
+          stringValue(record.drinkType) ||
+          stringValue(record.type) ||
+          "その他";
+      }
+
+      function recordCustomName(record) {
+        return stringValue(record.customAlcoholName) ||
+          stringValue(record.customName) ||
+          stringValue(record.name);
+      }
+
+      function recordVolume(record) {
+        return numberValue(record.volumeMl, record.amountMl, record.volume, record.ml);
+      }
+
+      function recordPercent(record) {
+        return numberValue(record.alcoholPercent, record.percent, record.abv);
+      }
+
+      function recordPureAlcohol(record) {
+        var saved = numberValue(record.pureAlcoholGrams, record.pureAlcoholG, record.pureAlcohol, record.grams);
+        if (saved > 0 || hasAnyNumber(record.pureAlcoholGrams, record.pureAlcoholG, record.pureAlcohol, record.grams)) {
+          return roundOne(saved);
+        }
+        return roundOne(recordVolume(record) * recordPercent(record) / 100 * 0.8);
+      }
+
+      function stringValue() {
+        for (var i = 0; i < arguments.length; i += 1) {
+          if (typeof arguments[i] === "string" && arguments[i].trim()) {
+            return arguments[i].trim();
+          }
+        }
+        return "";
+      }
+
+      function numberValue() {
+        for (var i = 0; i < arguments.length; i += 1) {
+          var value = Number(arguments[i]);
+          if (Number.isFinite(value)) {
+            return value;
+          }
+        }
+        return 0;
+      }
+
+      function hasAnyNumber() {
+        for (var i = 0; i < arguments.length; i += 1) {
+          if (Number.isFinite(Number(arguments[i]))) {
+            return true;
+          }
+        }
+        return false;
       }
 
       function roundOne(value) {
@@ -722,19 +732,6 @@
 
       function formatOne(value) {
         return roundOne(value).toFixed(1);
-      }
-
-      function getSelectedGender() {
-        var checked = elements.genderInputs.find(function (input) {
-          return input.checked;
-        });
-        return checked ? checked.value : DEFAULT_GENDER;
-      }
-
-      function setSelectedGender(gender) {
-        elements.genderInputs.forEach(function (input) {
-          input.checked = input.value === gender;
-        });
       }
 
       function getCurrentPureAlcohol() {
@@ -763,53 +760,56 @@
         elements.calculatedAlcohol.textContent = formatOne(getCurrentPureAlcohol());
       }
 
-      function updateGuide() {
-        var gender = getSelectedGender();
-        if (gender === "male") {
-          elements.guideText.textContent = "男性：1日あたり純アルコール20g程度までが目安です。";
-        } else {
-          elements.guideText.textContent = "女性：1日あたり純アルコール10g程度を目安に控えめに考えましょう。";
-        }
-        updateToday();
-      }
-
       function displayName(record) {
-        if (record.drinkType === "その他" && record.customName) {
-          return record.customName;
+        var type = recordAlcoholType(record);
+        var customName = recordCustomName(record);
+        if (type === "その他" && customName) {
+          return customName;
         }
-        return record.drinkType;
+        return type;
       }
 
-      function todayRecords() {
-        var today = todayString();
-        return state.records
-          .filter(function (record) {
-            return record.date === today;
-          })
-          .sort(function (a, b) {
-            return a.time.localeCompare(b.time);
-          });
+      function recordLine(record) {
+        return displayName(record) + " " +
+          recordVolume(record) + "ml / " +
+          recordPercent(record) + "% / " +
+          formatOne(recordPureAlcohol(record)) + "g";
+      }
+
+      function recordsForDate(date) {
+        return state.records.filter(function (record) {
+          return recordDate(record) === date;
+        });
       }
 
       function sumRecords(records) {
         return roundOne(records.reduce(function (sum, record) {
-          return sum + Number(record.pureAlcoholG || 0);
+          return sum + recordPureAlcohol(record);
         }, 0));
       }
 
-      function updateToday() {
-        var gender = getSelectedGender();
-        var total = sumRecords(todayRecords());
-        elements.todayTotal.textContent = formatOne(total);
-        if (gender === "male") {
-          elements.judgementText.textContent = total <= 20 ? "目安内です" : "今日は少し多めです。水分をとって休みましょう。";
-        } else {
-          elements.judgementText.textContent = total <= 10 ? "目安内です" : "今日は少し多めです。水分をとって休みましょう。";
+      function dateNDaysAgo(daysAgo) {
+        var date = new Date();
+        date.setDate(date.getDate() - daysAgo);
+        return formatDateLocal(date);
+      }
+
+      function averageForDays(days) {
+        var total = 0;
+        for (var i = 0; i < days; i += 1) {
+          total += sumRecords(recordsForDate(dateNDaysAgo(i)));
         }
+        return roundOne(total / days);
+      }
+
+      function updateSummaries() {
+        elements.todayTotal.textContent = formatOne(sumRecords(recordsForDate(todayString())));
+        elements.average7.textContent = formatOne(averageForDays(7));
+        elements.average30.textContent = formatOne(averageForDays(30));
       }
 
       function renderTodayRecords() {
-        var records = todayRecords();
+        var records = recordsForDate(todayString());
         elements.todayRecords.innerHTML = "";
         elements.todayEmpty.classList.toggle("hidden", records.length > 0);
 
@@ -819,12 +819,7 @@
 
           var main = document.createElement("div");
           main.className = "record-main";
-          main.textContent = record.time + "　" + displayName(record) + " " + record.amountMl + "ml / " + record.alcoholPercent + "% / " + formatOne(record.pureAlcoholG) + "g";
-
-          var sub = document.createElement("div");
-          sub.className = "record-sub";
-          sub.textContent = record.gender === "male" ? "男性で記録" : "女性で記録";
-          main.appendChild(sub);
+          main.textContent = recordLine(record);
 
           var button = document.createElement("button");
           button.type = "button";
@@ -843,10 +838,11 @@
       function renderHistory() {
         var grouped = {};
         state.records.forEach(function (record) {
-          if (!grouped[record.date]) {
-            grouped[record.date] = [];
+          var date = recordDate(record);
+          if (!grouped[date]) {
+            grouped[date] = [];
           }
-          grouped[record.date].push(record);
+          grouped[date].push(record);
         });
 
         var dates = Object.keys(grouped).sort(function (a, b) {
@@ -857,33 +853,28 @@
         elements.historyEmpty.classList.toggle("hidden", dates.length > 0);
 
         dates.forEach(function (date) {
-          var records = grouped[date].sort(function (a, b) {
-            return a.time.localeCompare(b.time);
-          });
+          var records = grouped[date];
           var item = document.createElement("li");
           item.className = "history-item";
 
-          var head = document.createElement("div");
-          head.className = "history-head";
+          var dateLine = document.createElement("div");
+          dateLine.className = "history-date";
+          dateLine.textContent = date;
 
-          var dateSpan = document.createElement("span");
-          dateSpan.textContent = date;
-
-          var totalSpan = document.createElement("span");
-          totalSpan.textContent = formatOne(sumRecords(records)) + "g";
-
-          head.appendChild(dateSpan);
-          head.appendChild(totalSpan);
+          var totalLine = document.createElement("div");
+          totalLine.className = "history-total";
+          totalLine.textContent = "合計 " + formatOne(sumRecords(records)) + "g";
 
           var detail = document.createElement("ul");
           detail.className = "history-detail";
           records.forEach(function (record) {
             var line = document.createElement("li");
-            line.textContent = record.time + "　" + displayName(record) + " " + record.amountMl + "ml / " + record.alcoholPercent + "% / " + formatOne(record.pureAlcoholG) + "g";
+            line.textContent = recordLine(record);
             detail.appendChild(line);
           });
 
-          item.appendChild(head);
+          item.appendChild(dateLine);
+          item.appendChild(totalLine);
           item.appendChild(detail);
           elements.historyList.appendChild(item);
         });
@@ -891,7 +882,7 @@
 
       function renderAll() {
         updateCalculation();
-        updateGuide();
+        updateSummaries();
         renderTodayRecords();
         renderHistory();
       }
@@ -905,26 +896,39 @@
       }
 
       function saveRecord() {
-        var gender = getSelectedGender();
-        var drinkType = elements.drinkType.value;
-        var customName = elements.customName.value.trim();
-        var amount = Number(elements.volumeMl.value);
-        var percent = Number(elements.alcoholPercent.value);
-        var pure = getCurrentPureAlcohol();
+        var date = elements.recordDate.value;
+        var today = todayString();
+        var alcoholType = elements.drinkType.value;
+        var customAlcoholName = elements.customName.value.trim();
+        var volumeMl = Number(elements.volumeMl.value);
+        var alcoholPercent = Number(elements.alcoholPercent.value);
+        var pureAlcoholGrams = getCurrentPureAlcohol();
 
-        if (drinkType === "その他" && !customName) {
+        if (!isDateString(date)) {
+          setStatus(elements.saveStatus, "記録日を選択してください。", "error");
+          elements.recordDate.focus();
+          return;
+        }
+
+        if (date > today) {
+          setStatus(elements.saveStatus, "未来の日付は選択できません。", "error");
+          elements.recordDate.focus();
+          return;
+        }
+
+        if (alcoholType === "その他" && !customAlcoholName) {
           setStatus(elements.saveStatus, "その他の場合は、お酒の名前を入力してください。", "error");
           elements.customName.focus();
           return;
         }
 
-        if (!Number.isFinite(amount) || amount <= 0) {
+        if (!Number.isFinite(volumeMl) || volumeMl <= 0) {
           setStatus(elements.saveStatus, "飲んだ量をmlで入力してください。", "error");
           elements.volumeMl.focus();
           return;
         }
 
-        if (!Number.isFinite(percent) || percent < 0 || percent > 100) {
+        if (!Number.isFinite(alcoholPercent) || alcoholPercent < 0 || alcoholPercent > 100) {
           setStatus(elements.saveStatus, "アルコール度数は0〜100の範囲で入力してください。", "error");
           elements.alcoholPercent.focus();
           return;
@@ -932,14 +936,12 @@
 
         state.records.push({
           id: createId(),
-          date: todayString(),
-          time: currentTimeString(),
-          gender: gender,
-          drinkType: drinkType,
-          customName: customName,
-          amountMl: amount,
-          alcoholPercent: percent,
-          pureAlcoholG: pure
+          date: date,
+          alcoholType: alcoholType,
+          customAlcoholName: customAlcoholName,
+          volumeMl: volumeMl,
+          alcoholPercent: alcoholPercent,
+          pureAlcoholGrams: pureAlcoholGrams
         });
 
         saveRecords();
@@ -1001,25 +1003,20 @@
           throw new Error("recordsが見つかりません。");
         }
 
-        records.forEach(function (record, index) {
+        records.forEach(function (record) {
           if (!record || typeof record !== "object" || Array.isArray(record)) {
             throw new Error("記録データの形式が正しくありません。");
-          }
-          if (typeof record.date !== "string" || typeof record.time !== "string") {
-            throw new Error((index + 1) + "件目の日付または時刻が正しくありません。");
           }
         });
 
         if (!settings || typeof settings !== "object" || Array.isArray(settings)) {
           settings = state.settings;
         }
+        settings.version = STORAGE_VERSION;
 
         return {
-          records: records.map(normalizeRecord),
-          settings: {
-            version: STORAGE_VERSION,
-            gender: settings.gender === "male" || settings.gender === "female" ? settings.gender : DEFAULT_GENDER
-          }
+          records: records.map(ensureRecordId),
+          settings: settings
         };
       }
 
@@ -1058,18 +1055,17 @@
       }
 
       function initialize() {
-        saveSettings();
-        setSelectedGender(state.settings.gender);
+        var today = todayString();
+        elements.recordDate.value = today;
+        elements.recordDate.max = today;
         elements.alcoholPercent.value = drinkDefaults[elements.drinkType.value];
+        saveSettings();
 
-        elements.genderInputs.forEach(function (input) {
-          input.addEventListener("change", function () {
-            state.settings.gender = getSelectedGender();
-            saveSettings();
-            updateGuide();
-          });
+        elements.recordDate.addEventListener("change", function () {
+          if (elements.recordDate.value > todayString()) {
+            elements.recordDate.value = todayString();
+          }
         });
-
         elements.drinkType.addEventListener("change", updateDrinkDefaults);
         elements.volumeMl.addEventListener("input", updateCalculation);
         elements.alcoholPercent.addEventListener("input", function () {
