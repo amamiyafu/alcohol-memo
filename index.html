@@ -11,18 +11,22 @@
   <link rel="manifest" href="manifest.json">
   <style>
     :root {
-      --bg: #fffaf3;
-      --paper: #ffffff;
-      --paper-soft: #fff6e8;
-      --ink: #2f2a25;
-      --muted: #74685c;
-      --line: #ead9c3;
-      --brand: #b96f43;
-      --brand-dark: #8c4d2c;
-      --accent: #52776d;
-      --danger: #b4544d;
-      --shadow: 0 14px 34px rgba(88, 56, 26, 0.12);
-      --radius: 8px;
+      --bg: #fff7e8;
+      --bg-soft: #fffaf2;
+      --card: #fffdf8;
+      --card-warm: #fff1dc;
+      --line: #ead9c4;
+      --line-strong: #d7b895;
+      --text: #2f2924;
+      --muted: #7a6b5f;
+      --main: #b87445;
+      --main-dark: #93552f;
+      --main-soft: #f3dcc7;
+      --accent: #8b5a3c;
+      --danger: #b45b4d;
+      --danger-soft: #f7e2dc;
+      --shadow: 0 12px 26px rgba(132, 83, 42, 0.11);
+      --radius: 20px;
     }
 
     * {
@@ -42,10 +46,10 @@
       min-height: 100%;
       margin: 0;
       overflow-x: hidden;
-      color: var(--ink);
+      color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(255, 238, 204, 0.72), transparent 34rem),
-        linear-gradient(180deg, #fff8ef 0%, #fffaf3 42%, #f8efe4 100%);
+        radial-gradient(circle at top left, rgba(255, 238, 204, 0.78), transparent 34rem),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 44%, #f9ecd9 100%);
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
       font-size: 16px;
       line-height: 1.6;
@@ -77,8 +81,8 @@
       border: 1px solid var(--line);
       border-radius: 12px;
       padding: 12px 14px;
-      color: var(--ink);
-      background: #fffdf9;
+      color: var(--text);
+      background: #fffefa;
       box-sizing: border-box;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
       outline: none;
@@ -90,8 +94,8 @@
     input[type="number"]:focus,
     input[type="text"]:focus,
     select:focus {
-      border-color: var(--brand);
-      box-shadow: 0 0 0 4px rgba(185, 111, 67, 0.16);
+      border-color: var(--line-strong);
+      box-shadow: 0 0 0 4px rgba(184, 116, 69, 0.16);
     }
 
     input[type="file"] {
@@ -100,7 +104,7 @@
       border: 1px dashed var(--line);
       border-radius: 12px;
       padding: 10px;
-      background: #fffdf9;
+      background: var(--bg-soft);
       color: var(--muted);
     }
 
@@ -151,10 +155,10 @@
     .card {
       width: 100%;
       margin: 0 0 16px;
-      border: 1px solid rgba(234, 217, 195, 0.9);
+      border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 18px;
-      background: rgba(255, 255, 255, 0.92);
+      padding: 20px;
+      background: var(--card);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
@@ -209,8 +213,8 @@
       margin-top: 4px;
       border-radius: 8px;
       padding: 18px;
-      background: linear-gradient(135deg, #fff0dd, #fffaf4);
-      border: 1px solid #ecd2b6;
+      background: linear-gradient(135deg, var(--card-warm), var(--bg-soft));
+      border: 1px solid var(--line);
     }
 
     .result-label {
@@ -223,7 +227,7 @@
       font-size: 38px;
       font-weight: 900;
       line-height: 1.1;
-      color: var(--brand-dark);
+      color: var(--accent);
       letter-spacing: 0;
     }
 
@@ -241,12 +245,12 @@
       gap: 8px;
       border-radius: 8px;
       padding: 18px;
-      background: #f0f6f2;
-      border: 1px solid #cfe0d6;
+      background: linear-gradient(135deg, var(--card-warm), #fff8ed);
+      border: 1px solid var(--line);
     }
 
     .summary-label {
-      color: #567269;
+      color: var(--muted);
       font-size: 14px;
       font-weight: 800;
     }
@@ -255,7 +259,7 @@
       font-size: 34px;
       font-weight: 900;
       line-height: 1.1;
-      color: #365f55;
+      color: var(--accent);
       letter-spacing: 0;
     }
 
@@ -269,28 +273,60 @@
       width: 100%;
       min-height: 52px;
       border: 0;
-      border-radius: 14px;
+      border-radius: 18px;
       padding: 13px 16px;
       color: #fff;
-      background: var(--brand);
+      background: var(--main);
       font-weight: 900;
       cursor: pointer;
       touch-action: manipulation;
+      box-shadow: 0 8px 16px rgba(147, 85, 47, 0.16);
     }
 
+    button:hover,
     button:active {
+      background: var(--main-dark);
       transform: translateY(1px);
     }
 
     button.secondary {
-      border: 1px solid var(--line);
-      color: var(--brand-dark);
-      background: #fff8ee;
+      border: 1px solid var(--line-strong);
+      color: var(--accent);
+      background: var(--main-soft);
+      box-shadow: none;
+    }
+
+    button.secondary:hover,
+    button.secondary:active {
+      color: var(--accent);
+      background: #ead0b8;
     }
 
     button.danger {
-      color: #fff;
-      background: var(--danger);
+      border: 1px solid #e4b9ae;
+      color: var(--danger);
+      background: var(--danger-soft);
+      box-shadow: none;
+    }
+
+    button.danger:hover,
+    button.danger:active {
+      color: #9d4b40;
+      background: #efd1c9;
+    }
+
+    .form-actions,
+    .record-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .form-actions {
+      grid-template-columns: 1fr;
+    }
+
+    .record-actions {
+      grid-template-columns: 1fr 1fr;
     }
 
     .record-list,
@@ -311,7 +347,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 12px;
-      background: #fffdf9;
+      background: var(--bg-soft);
     }
 
     .record-main {
@@ -335,7 +371,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 12px;
-      background: #fffdf9;
+      background: var(--bg-soft);
     }
 
     .history-date {
@@ -364,7 +400,7 @@
       border-radius: 8px;
       padding: 14px;
       color: var(--muted);
-      background: #fffdf9;
+      background: var(--bg-soft);
       text-align: center;
     }
 
@@ -471,7 +507,10 @@
           <div class="result-value"><span id="calculatedAlcohol">0.0</span><small>g</small></div>
         </div>
 
-        <button id="saveRecord" type="button">記録する</button>
+        <div class="form-actions">
+          <button id="saveRecord" type="button">記録する</button>
+          <button id="cancelEdit" type="button" class="secondary hidden">キャンセル</button>
+        </div>
         <p id="saveStatus" class="status" aria-live="polite"></p>
       </div>
     </section>
@@ -555,6 +594,7 @@
         alcoholPercent: document.getElementById("alcoholPercent"),
         calculatedAlcohol: document.getElementById("calculatedAlcohol"),
         saveRecord: document.getElementById("saveRecord"),
+        cancelEdit: document.getElementById("cancelEdit"),
         saveStatus: document.getElementById("saveStatus"),
         todayTotal: document.getElementById("todayTotal"),
         average7: document.getElementById("average7"),
@@ -571,7 +611,8 @@
       var state = {
         records: readRecords(),
         settings: readSettings(),
-        userEditedPercent: false
+        userEditedPercent: false,
+        editingId: null
       };
 
       function readJson(key, fallback) {
@@ -760,6 +801,101 @@
         elements.calculatedAlcohol.textContent = formatOne(getCurrentPureAlcohol());
       }
 
+      function resetForm(clearStatus) {
+        var today = todayString();
+        state.editingId = null;
+        state.userEditedPercent = false;
+        elements.recordDate.value = today;
+        elements.recordDate.max = today;
+        elements.drinkType.value = "ビール";
+        elements.customName.value = "";
+        elements.customNameField.classList.add("hidden");
+        elements.volumeMl.value = "";
+        elements.alcoholPercent.value = drinkDefaults["ビール"];
+        elements.saveRecord.textContent = "記録する";
+        elements.cancelEdit.classList.add("hidden");
+        if (clearStatus) {
+          setStatus(elements.saveStatus, "", "");
+        }
+        updateCalculation();
+      }
+
+      function startEdit(recordId) {
+        var record = state.records.find(function (item) {
+          return item.id === recordId;
+        });
+        if (!record) {
+          setStatus(elements.saveStatus, "編集する記録が見つかりません。", "error");
+          return;
+        }
+
+        var type = recordAlcoholType(record);
+        var customName = recordCustomName(record);
+        var isDefaultType = Object.prototype.hasOwnProperty.call(drinkDefaults, type);
+
+        state.editingId = record.id;
+        state.userEditedPercent = true;
+        elements.recordDate.value = recordDate(record);
+        elements.recordDate.max = todayString();
+        elements.drinkType.value = isDefaultType ? type : "その他";
+        elements.customNameField.classList.toggle("hidden", elements.drinkType.value !== "その他");
+        elements.customName.value = elements.drinkType.value === "その他" ? (customName || (isDefaultType ? "" : type)) : customName;
+        elements.volumeMl.value = recordVolume(record) || "";
+        elements.alcoholPercent.value = recordPercent(record) || "";
+        elements.saveRecord.textContent = "更新する";
+        elements.cancelEdit.classList.remove("hidden");
+        setStatus(elements.saveStatus, "記録を編集中です。", "ok");
+        updateCalculation();
+        document.getElementById("inputTitle").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function formValues() {
+        return {
+          date: elements.recordDate.value,
+          alcoholType: elements.drinkType.value,
+          customAlcoholName: elements.customName.value.trim(),
+          volumeMl: Number(elements.volumeMl.value),
+          alcoholPercent: Number(elements.alcoholPercent.value),
+          pureAlcoholGrams: getCurrentPureAlcohol()
+        };
+      }
+
+      function validateForm(values) {
+        var today = todayString();
+
+        if (!isDateString(values.date)) {
+          setStatus(elements.saveStatus, "記録日を選択してください。", "error");
+          elements.recordDate.focus();
+          return false;
+        }
+
+        if (values.date > today) {
+          setStatus(elements.saveStatus, "未来の日付は選択できません。", "error");
+          elements.recordDate.focus();
+          return false;
+        }
+
+        if (values.alcoholType === "その他" && !values.customAlcoholName) {
+          setStatus(elements.saveStatus, "その他の場合は、お酒の名前を入力してください。", "error");
+          elements.customName.focus();
+          return false;
+        }
+
+        if (!Number.isFinite(values.volumeMl) || values.volumeMl <= 0) {
+          setStatus(elements.saveStatus, "飲んだ量をmlで入力してください。", "error");
+          elements.volumeMl.focus();
+          return false;
+        }
+
+        if (!Number.isFinite(values.alcoholPercent) || values.alcoholPercent < 0 || values.alcoholPercent > 100) {
+          setStatus(elements.saveStatus, "アルコール度数は0〜100の範囲で入力してください。", "error");
+          elements.alcoholPercent.focus();
+          return false;
+        }
+
+        return true;
+      }
+
       function displayName(record) {
         var type = recordAlcoholType(record);
         var customName = recordCustomName(record);
@@ -821,18 +957,35 @@
           main.className = "record-main";
           main.textContent = recordLine(record);
 
-          var button = document.createElement("button");
-          button.type = "button";
-          button.className = "danger";
-          button.textContent = "削除";
-          button.addEventListener("click", function () {
-            deleteRecord(record.id);
-          });
-
           item.appendChild(main);
-          item.appendChild(button);
+          item.appendChild(createRecordActions(record));
           elements.todayRecords.appendChild(item);
         });
+      }
+
+      function createRecordActions(record) {
+        var actions = document.createElement("div");
+        actions.className = "record-actions";
+
+        var editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "secondary";
+        editButton.textContent = "編集";
+        editButton.addEventListener("click", function () {
+          startEdit(record.id);
+        });
+
+        var deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "danger";
+        deleteButton.textContent = "削除";
+        deleteButton.addEventListener("click", function () {
+          deleteRecord(record.id);
+        });
+
+        actions.appendChild(editButton);
+        actions.appendChild(deleteButton);
+        return actions;
       }
 
       function renderHistory() {
@@ -869,7 +1022,14 @@
           detail.className = "history-detail";
           records.forEach(function (record) {
             var line = document.createElement("li");
-            line.textContent = recordLine(record);
+            line.className = "record-item";
+
+            var main = document.createElement("div");
+            main.className = "record-main";
+            main.textContent = recordLine(record);
+
+            line.appendChild(main);
+            line.appendChild(createRecordActions(record));
             detail.appendChild(line);
           });
 
@@ -896,58 +1056,36 @@
       }
 
       function saveRecord() {
-        var date = elements.recordDate.value;
-        var today = todayString();
-        var alcoholType = elements.drinkType.value;
-        var customAlcoholName = elements.customName.value.trim();
-        var volumeMl = Number(elements.volumeMl.value);
-        var alcoholPercent = Number(elements.alcoholPercent.value);
-        var pureAlcoholGrams = getCurrentPureAlcohol();
-
-        if (!isDateString(date)) {
-          setStatus(elements.saveStatus, "記録日を選択してください。", "error");
-          elements.recordDate.focus();
+        var values = formValues();
+        if (!validateForm(values)) {
           return;
         }
 
-        if (date > today) {
-          setStatus(elements.saveStatus, "未来の日付は選択できません。", "error");
-          elements.recordDate.focus();
+        if (state.editingId) {
+          updateRecord(values);
           return;
         }
 
-        if (alcoholType === "その他" && !customAlcoholName) {
-          setStatus(elements.saveStatus, "その他の場合は、お酒の名前を入力してください。", "error");
-          elements.customName.focus();
-          return;
-        }
-
-        if (!Number.isFinite(volumeMl) || volumeMl <= 0) {
-          setStatus(elements.saveStatus, "飲んだ量をmlで入力してください。", "error");
-          elements.volumeMl.focus();
-          return;
-        }
-
-        if (!Number.isFinite(alcoholPercent) || alcoholPercent < 0 || alcoholPercent > 100) {
-          setStatus(elements.saveStatus, "アルコール度数は0〜100の範囲で入力してください。", "error");
-          elements.alcoholPercent.focus();
-          return;
-        }
-
-        state.records.push({
-          id: createId(),
-          date: date,
-          alcoholType: alcoholType,
-          customAlcoholName: customAlcoholName,
-          volumeMl: volumeMl,
-          alcoholPercent: alcoholPercent,
-          pureAlcoholGrams: pureAlcoholGrams
-        });
-
+        state.records.push(Object.assign({ id: createId() }, values));
         saveRecords();
         setStatus(elements.saveStatus, "記録しました。", "ok");
-        elements.volumeMl.value = "";
-        updateCalculation();
+        resetForm(false);
+        renderAll();
+      }
+
+      function updateRecord(values) {
+        var index = state.records.findIndex(function (record) {
+          return record.id === state.editingId;
+        });
+        if (index === -1) {
+          setStatus(elements.saveStatus, "更新する記録が見つかりません。", "error");
+          return;
+        }
+
+        state.records[index] = Object.assign({}, state.records[index], values);
+        saveRecords();
+        setStatus(elements.saveStatus, "更新しました。", "ok");
+        resetForm(false);
         renderAll();
       }
 
@@ -1055,11 +1193,8 @@
       }
 
       function initialize() {
-        var today = todayString();
-        elements.recordDate.value = today;
-        elements.recordDate.max = today;
-        elements.alcoholPercent.value = drinkDefaults[elements.drinkType.value];
         saveSettings();
+        resetForm(true);
 
         elements.recordDate.addEventListener("change", function () {
           if (elements.recordDate.value > todayString()) {
@@ -1073,6 +1208,9 @@
           updateCalculation();
         });
         elements.saveRecord.addEventListener("click", saveRecord);
+        elements.cancelEdit.addEventListener("click", function () {
+          resetForm(true);
+        });
         elements.exportJson.addEventListener("click", exportBackup);
         elements.importJson.addEventListener("change", function (event) {
           importBackup(event.target.files && event.target.files[0]);
