@@ -166,39 +166,41 @@
 
     .backup-card {
       display: grid;
-      gap: 10px;
-      margin-bottom: 14px;
-      padding: 14px 16px;
+      gap: 0;
+      margin-bottom: 16px;
+      padding: 18px 20px;
       background: rgba(255, 253, 248, 0.86);
       box-shadow: 0 8px 18px rgba(132, 83, 42, 0.08);
     }
 
-    .backup-head {
-      display: grid;
-      gap: 2px;
-    }
-
     .backup-card h2 {
-      margin-bottom: 0;
+      margin-bottom: 8px;
       font-size: 17px;
       line-height: 1.35;
     }
 
     .backup-card .guide {
+      margin-bottom: 15px;
       font-size: 13px;
     }
 
     .backup-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
+      width: 100%;
+      max-width: 340px;
     }
 
     .backup-status {
-      min-height: 20px;
-      margin-top: 0;
+      min-height: 0;
+      margin: 10px 0 0;
       font-size: 13px;
+    }
+
+    .backup-status:empty {
+      display: none;
     }
 
     .form-grid {
@@ -340,45 +342,43 @@
       background: #ead0b8;
     }
 
-    .compact-button {
-      display: inline-flex;
+    .backup-action {
+      display: flex;
+      flex: 1 1 132px;
       align-items: center;
       justify-content: center;
-      width: auto;
-      min-width: 112px;
+      min-width: 0;
+      height: 42px;
       min-height: 42px;
       border-radius: 14px;
-      padding: 9px 14px;
+      padding: 0 14px;
+      box-sizing: border-box;
       font-size: 14px;
       font-weight: 900;
-      line-height: 1.2;
+      line-height: 1;
       cursor: pointer;
-    }
-
-    .import-button {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--line-strong);
-      color: var(--accent);
-      background: var(--main-soft);
       -webkit-tap-highlight-color: transparent;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
-    .import-button:active {
-      background: #ead0b8;
-      transform: translateY(1px);
-    }
-
-    .import-button input[type="file"] {
+    .backup-action input[type="file"] {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+      width: 1px;
+      height: 1px;
       min-height: 0;
+      margin: -1px;
       border: 0;
       padding: 0;
+      overflow: hidden;
       opacity: 0;
-      cursor: pointer;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .backup-action:focus-within {
+      border-color: var(--line-strong);
+      box-shadow: 0 0 0 4px rgba(184, 116, 69, 0.14);
     }
 
     button.danger {
@@ -543,8 +543,8 @@
         <p class="guide">記録のバックアップと復元ができます。</p>
       </div>
       <div class="backup-actions">
-        <button id="exportJson" type="button" class="secondary compact-button">エクスポート</button>
-        <label class="secondary compact-button import-button" for="importJson">
+        <button id="exportJson" type="button" class="secondary backup-action">エクスポート</button>
+        <label class="secondary backup-action" for="importJson">
           インポート
           <input id="importJson" type="file" accept="application/json,.json">
         </label>
