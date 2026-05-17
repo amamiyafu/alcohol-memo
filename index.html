@@ -163,6 +163,43 @@
       overflow: hidden;
     }
 
+    .backup-card {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 14px 16px;
+      background: rgba(255, 253, 248, 0.86);
+      box-shadow: 0 8px 18px rgba(132, 83, 42, 0.08);
+    }
+
+    .backup-head {
+      display: grid;
+      gap: 2px;
+    }
+
+    .backup-card h2 {
+      margin-bottom: 0;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .backup-card .guide {
+      font-size: 13px;
+    }
+
+    .backup-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .backup-status {
+      min-height: 20px;
+      margin-top: 0;
+      font-size: 13px;
+    }
+
     .form-grid {
       display: grid;
       gap: 14px;
@@ -300,6 +337,47 @@
     button.secondary:active {
       color: var(--accent);
       background: #ead0b8;
+    }
+
+    .compact-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      min-width: 112px;
+      min-height: 42px;
+      border-radius: 14px;
+      padding: 9px 14px;
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.2;
+      cursor: pointer;
+    }
+
+    .import-button {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line-strong);
+      color: var(--accent);
+      background: var(--main-soft);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .import-button:active {
+      background: #ead0b8;
+      transform: translateY(1px);
+    }
+
+    .import-button input[type="file"] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      border: 0;
+      padding: 0;
+      opacity: 0;
+      cursor: pointer;
     }
 
     button.danger {
@@ -458,6 +536,21 @@
       <p class="lead">飲んだ量から純アルコール量を計算し記録します。</p>
     </header>
 
+    <section class="card backup-card" aria-labelledby="backupTitle">
+      <div class="backup-head">
+        <h2 id="backupTitle">バックアップ</h2>
+        <p class="guide">記録のバックアップと復元ができます。</p>
+      </div>
+      <div class="backup-actions">
+        <button id="exportJson" type="button" class="secondary compact-button">エクスポート</button>
+        <label class="secondary compact-button import-button" for="importJson">
+          インポート
+          <input id="importJson" type="file" accept="application/json,.json">
+        </label>
+      </div>
+      <p id="backupStatus" class="status backup-status" aria-live="polite"></p>
+    </section>
+
     <section class="card" aria-labelledby="inputTitle">
       <h2 id="inputTitle">飲んだお酒</h2>
       <div class="form-grid">
@@ -548,18 +641,6 @@
       <p id="historyEmpty" class="empty hidden">記録はまだありません。</p>
     </section>
 
-    <section class="card" aria-labelledby="backupTitle">
-      <h2 id="backupTitle">バックアップ</h2>
-      <p class="guide">大切な記録がなくならないように、定期的なバックアップをお願いします。</p>
-      <div class="form-grid" style="margin-top: 14px;">
-        <button id="exportJson" type="button" class="secondary">JSONファイルとしてエクスポート</button>
-        <div class="field">
-          <label for="importJson">JSONファイルからインポート</label>
-          <input id="importJson" type="file" accept="application/json,.json">
-        </div>
-        <p id="backupStatus" class="status" aria-live="polite"></p>
-      </div>
-    </section>
   </main>
 
   <script>
