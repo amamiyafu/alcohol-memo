@@ -186,7 +186,7 @@
 
     .backup-actions {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       gap: 10px;
       align-items: center;
       width: 100%;
@@ -347,19 +347,32 @@
       flex: 1 1 132px;
       align-items: center;
       justify-content: center;
+      width: 100%;
       min-width: 0;
       height: 42px;
       min-height: 42px;
+      margin: 0;
+      border: 1px solid var(--line-strong);
       border-radius: 14px;
       padding: 0 14px;
       box-sizing: border-box;
+      color: var(--accent);
+      background: var(--main-soft);
       font-size: 14px;
       font-weight: 900;
       line-height: 1;
       cursor: pointer;
+      box-shadow: none;
       -webkit-tap-highlight-color: transparent;
       -webkit-appearance: none;
       appearance: none;
+    }
+
+    .backup-action:hover,
+    .backup-action:active {
+      color: var(--accent);
+      background: #ead0b8;
+      transform: translateY(1px);
     }
 
     .backup-action input[type="file"] {
