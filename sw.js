@@ -1,4 +1,4 @@
-const CACHE_NAME = "alcohol-memo-cache-v9";
+const CACHE_NAME = "alcohol-memo-cache-v10";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -31,13 +31,21 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) {
-        return cached;
-      }
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request).then((response) => {
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put("./index.html", responseToCache);
+        });
+        return response;
+      }).catch(() => caches.match("./index.html"))
+    );
+    return;
+  }
 
-      return fetch(event.request).then((response) => {
+  event.respondWith(
+    fetch(event.request).then((response) => {
         if (!response || response.status !== 200 || response.type === "opaque") {
           return response;
         }
@@ -47,7 +55,8 @@ self.addEventListener("fetch", (event) => {
           cache.put(event.request, responseToCache);
         });
         return response;
-      }).catch(() => caches.match("./index.html"));
-    })
+      }).catch(() => caches.match(event.request).then((cached) => {
+        return cached || caches.match("./index.html");
+      }))
   );
 });
