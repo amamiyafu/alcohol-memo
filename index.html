@@ -609,12 +609,12 @@
     <section class="card backup-card" aria-labelledby="backupTitle">
       <div class="backup-head">
         <h2 id="backupTitle">バックアップ</h2>
-        <p class="guide">記録のバックアップと復元ができます。</p>
+        <p class="guide">記録を保存したり復元できます。</p>
       </div>
       <div class="backup-actions">
-        <button id="exportJson" type="button" class="secondary backup-action">エクスポート</button>
+        <button id="exportJson" type="button" class="secondary backup-action">保存</button>
         <label class="secondary backup-action" for="importJson">
-          インポート
+          復元
           <input id="importJson" type="file" accept="application/json,.json">
         </label>
       </div>
@@ -1305,7 +1305,7 @@
         link.click();
         link.remove();
         URL.revokeObjectURL(url);
-        setStatus(elements.backupStatus, "バックアップを書き出しました。", "ok");
+        setStatus(elements.backupStatus, "データを保存しました。", "ok");
       }
 
       function validateImportData(data) {
@@ -1351,15 +1351,15 @@
           try {
             var data = JSON.parse(String(reader.result || ""));
             var imported = validateImportData(data);
-            var message = "現在の記録と設定を、選択したバックアップで置き換えます。よろしいですか？";
+            var message = "現在の記録と設定を、選択したファイルの内容で復元します。よろしいですか？";
             if (!confirm(message)) {
               elements.importJson.value = "";
-              setStatus(elements.backupStatus, "インポートを取り消しました。", "");
+              setStatus(elements.backupStatus, "復元を取り消しました。", "");
               return;
             }
             localStorage.setItem(RECORDS_KEY, JSON.stringify(imported.records));
             localStorage.setItem(SETTINGS_KEY, JSON.stringify(imported.settings));
-            setStatus(elements.backupStatus, "インポートしました。画面を更新します。", "ok");
+            setStatus(elements.backupStatus, "復元しました。画面を更新します。", "ok");
             window.setTimeout(function () {
               window.location.reload();
             }, 350);
