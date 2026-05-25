@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
@@ -430,6 +430,52 @@
       list-style: none;
     }
 
+    .section-title-row,
+    .history-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .section-title-row {
+      margin-bottom: 14px;
+    }
+
+    .section-title-row h2 {
+      margin-bottom: 0;
+    }
+
+    .history-date-summary {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .add-date-button {
+      width: auto;
+      min-width: 112px;
+      min-height: 38px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--accent);
+      background: #fff6e9;
+      box-shadow: none;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .add-date-button:hover,
+    .add-date-button:active {
+      color: var(--accent);
+      background: var(--main-soft);
+    }
+
     .record-item {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -540,6 +586,16 @@
       .record-item button {
         width: 100%;
       }
+
+      .section-title-row,
+      .history-card-head {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .add-date-button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -644,7 +700,10 @@
     </section>
 
     <section class="card" aria-labelledby="todayRecordsTitle">
-      <h2 id="todayRecordsTitle">今日の記録</h2>
+      <div class="section-title-row">
+        <h2 id="todayRecordsTitle">今日の記録</h2>
+        <button id="addTodayDate" type="button" class="add-date-button">この日に追加</button>
+      </div>
       <ul id="todayRecords" class="record-list"></ul>
       <p id="todayEmpty" class="empty hidden">今日の記録はまだありません。</p>
     </section>
@@ -696,6 +755,7 @@
         average30: document.getElementById("average30"),
         todayRecords: document.getElementById("todayRecords"),
         todayEmpty: document.getElementById("todayEmpty"),
+        addTodayDate: document.getElementById("addTodayDate"),
         historyList: document.getElementById("historyList"),
         historyEmpty: document.getElementById("historyEmpty"),
         exportJson: document.getElementById("exportJson"),
@@ -896,11 +956,11 @@
         elements.calculatedAlcohol.textContent = formatOne(getCurrentPureAlcohol());
       }
 
-      function resetForm(clearStatus) {
+      function resetForm(clearStatus, dateOverride) {
         var today = todayString();
         state.editingId = null;
         state.userEditedPercent = false;
-        elements.recordDate.value = today;
+        elements.recordDate.value = dateOverride || today;
         elements.recordDate.max = today;
         elements.drinkType.value = "ビール";
         elements.customName.value = "";
@@ -913,6 +973,16 @@
           setStatus(elements.saveStatus, "", "");
         }
         updateCalculation();
+      }
+
+      function scrollToInputCard() {
+        document.getElementById("inputTitle").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function startAddForDate(date) {
+        resetForm(true, date);
+        setStatus(elements.saveStatus, "この日付に追加できます。", "ok");
+        scrollToInputCard();
       }
 
       function startEdit(recordId) {
@@ -941,7 +1011,7 @@
         elements.cancelEdit.classList.remove("hidden");
         setStatus(elements.saveStatus, "記録を編集中です。", "ok");
         updateCalculation();
-        document.getElementById("inputTitle").scrollIntoView({ behavior: "smooth", block: "start" });
+        scrollToInputCard();
       }
 
       function formValues() {
@@ -1105,6 +1175,12 @@
           var item = document.createElement("li");
           item.className = "history-item";
 
+          var head = document.createElement("div");
+          head.className = "history-card-head";
+
+          var summary = document.createElement("div");
+          summary.className = "history-date-summary";
+
           var dateLine = document.createElement("div");
           dateLine.className = "history-date";
           dateLine.textContent = date;
@@ -1112,6 +1188,19 @@
           var totalLine = document.createElement("div");
           totalLine.className = "history-total";
           totalLine.textContent = "合計 " + formatOne(sumRecords(records)) + "g";
+
+          var addButton = document.createElement("button");
+          addButton.type = "button";
+          addButton.className = "add-date-button";
+          addButton.textContent = "この日に追加";
+          addButton.addEventListener("click", function () {
+            startAddForDate(date);
+          });
+
+          summary.appendChild(dateLine);
+          summary.appendChild(totalLine);
+          head.appendChild(summary);
+          head.appendChild(addButton);
 
           var detail = document.createElement("ul");
           detail.className = "history-detail";
@@ -1128,8 +1217,7 @@
             detail.appendChild(line);
           });
 
-          item.appendChild(dateLine);
-          item.appendChild(totalLine);
+          item.appendChild(head);
           item.appendChild(detail);
           elements.historyList.appendChild(item);
         });
@@ -1305,6 +1393,9 @@
         elements.saveRecord.addEventListener("click", saveRecord);
         elements.cancelEdit.addEventListener("click", function () {
           resetForm(true);
+        });
+        elements.addTodayDate.addEventListener("click", function () {
+          startAddForDate(todayString());
         });
         elements.exportJson.addEventListener("click", exportBackup);
         elements.importJson.addEventListener("change", function (event) {

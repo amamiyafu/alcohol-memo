@@ -1,4 +1,4 @@
-const CACHE_NAME = "alcohol-memo-cache-v11";
+﻿const CACHE_NAME = "alcohol-memo-cache-v12";
 const APP_ASSETS = [
   "./",
   "./index.html",
