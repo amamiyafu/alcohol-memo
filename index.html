@@ -115,8 +115,19 @@
       padding: calc(18px + env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom));
     }
 
-    header {
-      padding: 8px 2px 16px;
+    .app-header {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin: 0 auto 24px;
+      padding: 8px 0 0;
+    }
+
+    .app-header h1 {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin: 0 0 8px;
     }
 
     h1,
@@ -147,10 +158,15 @@
       letter-spacing: 0;
     }
 
-    .lead {
-      margin-bottom: 0;
+    .app-description {
+      display: block;
+      width: 100%;
+      max-width: 32em;
+      margin: 0 auto;
       color: var(--muted);
       font-size: 15px;
+      text-align: center;
+      line-height: 1.7;
     }
 
     .card {
@@ -601,15 +617,15 @@
 </head>
 <body>
   <main class="app">
-    <header>
+    <header class="app-header">
       <h1>アルコール量メモ</h1>
-      <p class="lead">飲んだ量から純アルコール量を計算し記録します。</p>
+      <p class="app-description">飲んだ量から純アルコール量を計算し記録します。</p>
     </header>
 
     <section class="card backup-card" aria-labelledby="backupTitle">
       <div class="backup-head">
         <h2 id="backupTitle">バックアップ</h2>
-        <p class="guide">記録を保存したり復元できます。</p>
+        <p class="guide">記録を保存したり復元できます。<br>大切な記録がなくならないように、定期的に保存をお願いします。</p>
       </div>
       <div class="backup-actions">
         <button id="exportJson" type="button" class="secondary backup-action">保存</button>
