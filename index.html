@@ -715,14 +715,6 @@
       </div>
     </section>
 
-    <section class="card" aria-labelledby="todayRecordsTitle">
-      <div class="section-title-row">
-        <h2 id="todayRecordsTitle">今日の記録</h2>
-        <button id="addTodayDate" type="button" class="add-date-button">この日に追加</button>
-      </div>
-      <ul id="todayRecords" class="record-list"></ul>
-      <p id="todayEmpty" class="empty hidden">今日の記録はまだありません。</p>
-    </section>
 
     <section class="card" aria-labelledby="historyTitle">
       <h2 id="historyTitle">履歴</h2>
@@ -769,9 +761,6 @@
         todayTotal: document.getElementById("todayTotal"),
         average7: document.getElementById("average7"),
         average30: document.getElementById("average30"),
-        todayRecords: document.getElementById("todayRecords"),
-        todayEmpty: document.getElementById("todayEmpty"),
-        addTodayDate: document.getElementById("addTodayDate"),
         historyList: document.getElementById("historyList"),
         historyEmpty: document.getElementById("historyEmpty"),
         exportJson: document.getElementById("exportJson"),
@@ -1125,25 +1114,6 @@
         elements.average30.textContent = formatOne(averageForDays(30));
       }
 
-      function renderTodayRecords() {
-        var records = recordsForDate(todayString());
-        elements.todayRecords.innerHTML = "";
-        elements.todayEmpty.classList.toggle("hidden", records.length > 0);
-
-        records.forEach(function (record) {
-          var item = document.createElement("li");
-          item.className = "record-item";
-
-          var main = document.createElement("div");
-          main.className = "record-main";
-          main.textContent = recordLine(record);
-
-          item.appendChild(main);
-          item.appendChild(createRecordActions(record));
-          elements.todayRecords.appendChild(item);
-        });
-      }
-
       function createRecordActions(record) {
         var actions = document.createElement("div");
         actions.className = "record-actions";
@@ -1242,7 +1212,6 @@
       function renderAll() {
         updateCalculation();
         updateSummaries();
-        renderTodayRecords();
         renderHistory();
       }
 
@@ -1409,9 +1378,6 @@
         elements.saveRecord.addEventListener("click", saveRecord);
         elements.cancelEdit.addEventListener("click", function () {
           resetForm(true);
-        });
-        elements.addTodayDate.addEventListener("click", function () {
-          startAddForDate(todayString());
         });
         elements.exportJson.addEventListener("click", exportBackup);
         elements.importJson.addEventListener("change", function (event) {
