@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = "alcohol-memo-cache-v15";
+﻿const CACHE_NAME = "alcohol-memo-cache-v16";
 const APP_ASSETS = [
   "./",
   "./index.html",

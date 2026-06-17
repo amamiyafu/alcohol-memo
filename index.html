@@ -291,32 +291,67 @@
       font-size: 22px;
     }
 
-    .summary-grid {
-      display: grid;
-      gap: 12px;
-    }
-
     .summary-panel {
       display: grid;
-      gap: 8px;
-      border-radius: 8px;
-      padding: 18px;
+      gap: 6px;
+      max-width: 100%;
+      border-radius: 12px;
+      padding: 18px 22px;
       background: linear-gradient(135deg, var(--card-warm), #fff8ed);
       border: 1px solid var(--line);
     }
 
-    .summary-label {
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 800;
+    .today-summary-panel {
+      min-height: 0;
     }
 
     .summary-value {
+      color: var(--accent);
       font-size: 34px;
       font-weight: 900;
       line-height: 1.1;
-      color: var(--accent);
       letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .average-panel {
+      display: grid;
+      gap: 0;
+      max-width: 100%;
+      border-radius: 12px;
+      padding: 12px 18px;
+      background: linear-gradient(135deg, var(--card-warm), #fff8ed);
+      border: 1px solid var(--line);
+    }
+
+    .average-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      min-width: 0;
+      padding: 8px 0;
+    }
+
+    .average-row + .average-row {
+      border-top: 1px solid rgba(215, 184, 149, 0.65);
+    }
+
+    .average-label {
+      min-width: 0;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .average-value {
+      flex: 0 0 auto;
+      color: var(--accent);
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1.15;
+      white-space: nowrap;
     }
 
     .guide {
@@ -579,8 +614,7 @@
     }
 
     @media (min-width: 620px) {
-      .form-grid.two,
-      .summary-grid {
+      .form-grid.two {
         grid-template-columns: 1fr 1fr;
       }
     }
@@ -696,21 +730,21 @@
 
     <section class="card" aria-labelledby="todayTitle">
       <h2 id="todayTitle">今日の合計</h2>
-      <div class="summary-panel" aria-live="polite">
+      <div class="summary-panel today-summary-panel" aria-live="polite">
         <div class="summary-value"><span id="todayTotal">0.0</span>g</div>
       </div>
     </section>
 
     <section class="card" aria-labelledby="averageTitle">
       <h2 id="averageTitle">平均純アルコール量</h2>
-      <div class="summary-grid" aria-live="polite">
-        <div class="summary-panel">
-          <div class="summary-label">過去7日平均</div>
-          <div class="summary-value"><span id="average7">0.0</span>g</div>
+      <div class="average-panel" aria-live="polite">
+        <div class="average-row">
+          <div class="average-label">過去7日平均</div>
+          <div class="average-value"><span id="average7">0.0</span>g</div>
         </div>
-        <div class="summary-panel">
-          <div class="summary-label">過去30日平均</div>
-          <div class="summary-value"><span id="average30">0.0</span>g</div>
+        <div class="average-row">
+          <div class="average-label">過去30日平均</div>
+          <div class="average-value"><span id="average30">0.0</span>g</div>
         </div>
       </div>
     </section>
